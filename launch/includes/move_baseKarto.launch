@@ -1,0 +1,82 @@
+<!-- move base -->
+<launch>
+  <master auto="start"/>
+
+  <arg name="namespace"/>
+
+
+<param name="use_sim_time" value="true" />
+
+  <node pkg="slam_karto" type="slam_karto" name="slam_karto" output="screen">
+    <remap from="scan" to="base_scan"/>
+    <param name="map_frame"  value="map"/>
+    <param name="throttle_scans" value="1"/>
+    <param name="map_update_interval" value="5"/>    	
+    <param name="transform_tolerance"  value=""/>
+    <param name="resolution" value="0.025"/>
+    <param name="delta" value="0.05"/>
+    <param name="transform_publish_period" value="0.05"/>
+    <param name="use_scan_matching"  value="true"/>
+    <param name="use_scan_barycenter"  value="true"/>
+    <param name="minimum_time_interval"  value="7200"/>   <!-- default 3600 -->
+    <param name="minimum_travel_distance"  value="0.5"/>   <!-- default 0.2 -->
+    <param name="minimum_travel_heading"  value="0.52359878"/>   <!-- default math::DegreesToRadians(10) -->
+    <param name="scan_buffer_size"  value="70"/>
+    <param name="scan_buffer_maximum_scan_distance"  value="20.0"/>
+    <param name="link_match_minimum_response_fine"  value="0.8"/>  <!-- default 0.8 -->
+    <param name="link_scan_maximum_distance"  value="3.0"/>  <!-- default 10.0 -->
+    <param name="loop_search_maximum_distance"  value="3.0"/>  <!-- default 4.0 -->
+    <param name="do_loop_closing"  value="true"/>
+    <param name="loop_match_minimum_chain_size"  value="10"/>
+    <param name="loop_match_maximum_variance_coarse"  value=""/>  <!-- default math::Square(0.4) -->
+    <param name="loop_match_minimum_response_coarse"  value="0.8"/>  <!-- default 0.8 -->
+    <param name="loop_match_minimum_response_fine"  value="0.8" />  <!-- default 0.8 -->
+    <param name="correlation_search_space_dimension"  value="0.8"/>  <!-- default 0.8 -->
+
+    <param name="correlation_search_space_resolution"  value="0.3"/>  <!-- default 0.3 -->
+    <param name="correlation_search_space_smear_deviation"  value="0.01"/>  <!-- default 0.01 -->
+    <param name="loop_search_space_dimension"  value="0.3"/>  <!-- default 0.03 -->
+
+    <param name="loop_search_space_resolution"  value="9.0"/>
+    <param name="loop_search_space_resolution"  value="0.05"/>
+    <param name="loop_search_space_smear_deviation"  value="0.03"/>
+
+    <!-- <param name="distance_variance_penalty"  value="0.09"/> -->
+    <!-- <param name="angle_variance_penalty"  value=""/> -->
+    <param name="fine_search_angle_offset"  value="0.17453292"/>
+    <param name="coarse_search_angle_offset"  value="6.2831853"/>
+    <param name="coarse_angle_resolution"  value="0.17453292"/>
+    <param name="minimum_angle_penalty"  value="0.9"/>
+    <param name="minimum_distance_penalty"  value="0.5"/>
+    <param name="use_response_expansion"  value="true"/>
+  </node>
+  
+
+
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base_node" output="screen">
+    <param name="footprint_padding" value="0.01" />
+    <param name="controller_frequency" value="5.0" />
+    <param name="controller_patience" value="3.0" />
+    <param name="oscillation_timeout" value="30.0" />
+    <param name="oscillation_distance" value="0.5" />
+    <param name="planner_patience" value="1" />
+    <param name="controller_patience" value="1" /> 
+    <remap from="cmd_vel" to="mobile_base/commands/velocity"/>
+    <param name="recovery_behavior_enabled" value="false" />
+    <rosparam file="$(find multi_slam_karto)/move_base_param/costmap_common_params.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find multi_slam_karto)/move_base_param/costmap_common_params.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find multi_slam_karto)/move_base_param/local_costmap_params.yaml" command="load" />
+    <rosparam file="$(find multi_slam_karto)/move_base_param/global_costmap_params.yaml" command="load" />
+    <rosparam file="$(find multi_slam_karto)/move_base_param/base_local_planner_params.yaml" command="load" />  
+    <param name="global_costmap/global_frame" value="map"/>
+    <param name="global_costmap/robot_base_frame" value="$(arg namespace)/base_link"/>
+    <param name="global_costmap/laser_scan_sensor/sensor_frame" value="/$(arg namespace)/base_laser_link"/>
+    <param name="global_costmap/laser_scan_sensor/topic" value="/$(arg namespace)/base_scan"/>    
+    <param name="local_costmap/global_frame" value="$(arg namespace)/odom"/>
+    <param name="local_costmap/robot_base_frame" value="$(arg namespace)/base_link"/>
+    <param name="local_costmap/laser_scan_sensor/sensor_frame" value="$(arg namespace)/base_laser_link"/>
+    <param name="local_costmap/laser_scan_sensor/topic" value="/$(arg namespace)/base_scan"/>
+    <param name="local_costmap/obstacle_layer/laser_scan_sensor/topic" value="/$(arg namespace)/base_scan"/>
+  </node>
+
+</launch>
