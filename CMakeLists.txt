@@ -7,13 +7,13 @@ find_package(catkin REQUIRED
     cmake_modules
     message_filters
     nav_msgs
-#    open_karto
+    # open_karto
     laser_geometry
     rosconsole
     roscpp
     rospy
     sensor_msgs
-    sparse_bundle_adjustment
+    # sparse_bundle_adjustment
     tf
     visualization_msgs
     std_msgs
