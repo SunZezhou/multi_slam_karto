@@ -4,24 +4,26 @@ project(multi_slam_karto)
 find_package(Boost REQUIRED COMPONENTS thread)
 find_package(catkin REQUIRED
   COMPONENTS
-    cmake_modules
+#    cmake_modules
     message_filters
     nav_msgs
-    # open_karto
+#    open_karto
     laser_geometry
     rosconsole
     roscpp
     rospy
     sensor_msgs
-    # sparse_bundle_adjustment
+    sparse_bundle_adjustment
     tf
     visualization_msgs
     std_msgs
 )
-find_package(Eigen REQUIRED)
+include_directories("/usr/local/include/eigen3")
+include_directories(${PROJECT_SOURCE_DIR}/src)
+#find_package(Eigen REQUIRED)
 
-include_directories(${catkin_INCLUDE_DIRS} ${EIGEN_INCLUDE_DIRS})
-add_definitions(${EIGEN_DEFINITIONS})
+include_directories(${catkin_INCLUDE_DIRS})
+#add_definitions(${EIGEN_DEFINITIONS})
 
 catkin_package()
 

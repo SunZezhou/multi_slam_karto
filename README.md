@@ -14,16 +14,32 @@ This package has been tested on Ubuntu16.04 with ROS Kinetic. As far as I know, 
 
 (2) Install ROS navigation stack.
 
-`$ sudo apt-get install ros-melodic-navigation`
+`$ sudo apt-get install ros-kinetic-navigation`
 
 (3) Install eigen.
 
-(4) Install Kobuki robot packages
+(4) Install sparse-bundle-adjustment
+
+`$ sudo apt-get install ros-kinetic-sparse-bundle-adjustment`
+
+(5) Install Kobuki robot packages
 
 `sudo apt-get install ros-kinetic-kobuki ros-kinetic-kobuki-core ros-kinetic-kobuki-gazebo`
+
+## Usage
+
+(1) Compile
+
+`$ catkin_make`
+
+(2) Run
+
+`$ roslaunch multi_slam_karto multi_robots.launch`
 
 ## Known Issue / TO DO List
 
 1. The static global cost map cannot be loaded correctly.
 
 2. Add threshold at initial optimization between robots. 
+
+3. Automatically read the initial position of the robot in the launch file.

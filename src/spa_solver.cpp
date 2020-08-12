@@ -16,7 +16,7 @@
  */
 
 #include "spa_solver.h"
-#include <open_karto/Karto.h>
+#include <Karto.h>
 
 #include "ros/console.h"
 

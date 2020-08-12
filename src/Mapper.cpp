@@ -26,7 +26,7 @@
 #include <math.h>
 #include <assert.h>
 
-#include "open_karto/Mapper.h"
+#include "Mapper.h"
 
 //#define gazebo
 
