@@ -36,9 +36,9 @@
 #include "sensor_msgs/LaserScan.h"
 #include "nav_msgs/GetMap.h"
 
-#include "Mapper.h"
+#include "./Mapper.h"
 
-#include "spa_solver.h"
+#include "./spa_solver.h"
 
 #include <boost/thread.hpp>
 

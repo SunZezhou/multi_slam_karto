@@ -23,7 +23,7 @@
 #include <string.h>
 #include <stdio.h>
 
-#include "Karto.h"
+#include "./Karto.h"
 
 namespace karto
 {

@@ -40,7 +40,7 @@
 #include <Poco/Mutex.h>
 #endif
 
-#include <Math.h>
+#include "./MyMath.h"
 #include <Macros.h>
 
 #define KARTO_Object(name) \
