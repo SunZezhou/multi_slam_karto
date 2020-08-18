@@ -7,8 +7,8 @@
       kobuki_description/launch/view_model.launch
  -->
 <robot name="kobuki" xmlns:xacro="http://ros.org/wiki/xacro">
-  <xacro:include filename="$(find rrt_exploration_tutorials)/launch/includes/urdf/common_properties.urdf.xacro"/>
-  <xacro:include filename="$(find rrt_exploration_tutorials)/launch/includes/urdf/kobuki_gazebo.urdf.xacro"/>
+  <xacro:include filename="$(find multi_slam_karto)/launch/includes/urdf/common_properties.urdf.xacro"/>
+  <xacro:include filename="$(find multi_slam_karto)/launch/includes/urdf/kobuki_gazebo.urdf.xacro"/>
 
   <!-- Kobuki --> 
   <xacro:macro name="kobuki">   
@@ -33,7 +33,7 @@
       <visual>
         <geometry>
           <!-- new mesh -->
-          <mesh filename="package://rrt_exploration_tutorials/launch/includes/meshes/main_body.dae" />
+          <mesh filename="package://multi_slam_karto/launch/includes/meshes/main_body.dae" />
         </geometry>
         <origin xyz="0.001 0 0.05199" rpy="0 0 0"/>
       </visual>
@@ -69,7 +69,7 @@
     <link name="wheel_left_link">
       <visual>
         <geometry>
-          <mesh filename="package://rrt_exploration_tutorials/launch/includes/meshes/wheel.dae"/>
+          <mesh filename="package://multi_slam_karto/launch/includes/meshes/wheel.dae"/>
         </geometry>
         <origin xyz="0 0 0" rpy="0 0 0"/>
       </visual>
@@ -97,7 +97,7 @@
     <link name="wheel_right_link">
       <visual>
         <geometry>
-          <mesh filename="package://rrt_exploration_tutorials/launch/includes/meshes/wheel.dae"/>
+          <mesh filename="package://multi_slam_karto/launch/includes/meshes/wheel.dae"/>
         </geometry>
         <origin xyz="0 0 0" rpy="0 0 0"/>
       </visual>
@@ -241,7 +241,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://rrt_exploration_tutorials/launch/includes/meshes/hokuyo.dae"/>
+        <mesh filename="package://multi_slam_karto/launch/includes/meshes/hokuyo.dae"/>
       </geometry>
     </visual>
 
