@@ -38,6 +38,10 @@ This package has been tested on Ubuntu16.04 with ROS Kinetic. As far as I know, 
 
 `$ roslaunch multi_slam_karto multi_robots.launch`
 
+## Update
+
+- 2020.08.19  Add real robot launchfile.  Note: I modified the hokuyo driver. You can set the topic of the lidar scan in the launchfile. Git here [urg_node](https://github.com/SunZezhou/urg_node_my_config).
+
 ## Known Issue / TO DO List
 
 1. The static global cost map cannot be loaded correctly.
