@@ -1,0 +1,57 @@
+<launch>
+
+  <node pkg="multi_slam_karto" type="multi_slam_karto" name="multi_slam_karto" output="screen">
+    <param name="map_update_interval" value="1"/>    	
+    <param name="throttle_scans" value="1"/>
+    <param name="resolution" value="0.025"/>
+    <param name="delta" value="0.05"/>
+    <param name="transform_publish_period" value="0.05"/>
+  </node>
+
+  <arg name="robot_name" value="robot_1"/>
+
+  <arg name="kobuki_publish_tf" default="true"/> 
+  <arg name="urdf_file" default="$(find xacro)/xacro '$(find kobuki_description)/urdf/kobuki_standalone.urdf.xacro'"/>
+  <param name="robot_description" command="$(arg urdf_file)"/>
+  <node pkg="robot_state_publisher" type="robot_state_publisher" name="rob_st_pub" ns="$(arg robot_name)">
+    <param name="tf_prefix" value="$(arg robot_name)"/>
+  </node>
+
+  <node pkg="nodelet" type="nodelet" name="mobile_base_nodelet_manager" args="manager" ns="$(arg robot_name)"/>
+  <node pkg="nodelet" type="nodelet" name="mobile_base" args="load kobuki_node/KobukiNodelet mobile_base_nodelet_manager" ns="$(arg robot_name)">
+    <rosparam file="$(find kobuki_node)/param/base.yaml" command="load"/>
+    <param name="publish_tf" value="$(arg kobuki_publish_tf)"/>
+    <remap from="mobile_base/odom" to="odom"/>
+    <remap from="mobile_base/joint_states" to="joint_states"/>
+    <param name="odom_frame" value="$(arg robot_name)/odom"/>
+    <param name="base_frame" value="$(arg robot_name)/base_footprint"/>
+  </node>
+
+  <include file="$(find multi_slam_karto)/launch/includes/move_base_office.launch"> 
+    <arg name="robot_name" value="$(arg robot_name)"/>
+  </include> 
+
+  <!-- Hokuyo -->
+  <node name="urg_node" pkg="urg_node" type="urg_node" output="screen" ns="$(arg robot_name)">
+    <param name="ip_address" value="192.168.0.10"/>
+    <param name="serial_port" value="/dev/ttyACM0"/>
+    <param name="serial_baud" value="115200"/>
+    <param name="frame_id" value="$(arg robot_name)/base_laser_link"/>
+    <param name="calibrate_time" value="true"/>
+    <param name="publish_intensity" value="false"/>
+    <param name="publish_multiecho" value="false"/>
+    <param name="angle_min" value="-2"/>
+    <param name="angle_max" value="2"/>
+    <param name="range_min" value="0.1"/>
+    <param name="range_max" value="20"/>
+    <param name="scan_topic" value="base_scan"/>
+  </node>
+
+  <node pkg="tf" type="static_transform_publisher" name="base2laser"
+      args="0.15 0 0.16 0 0 0 $(arg robot_name)/base_link $(arg robot_name)/base_laser_link 500" ns="$(arg robot_name)"/>
+
+  <node pkg="rviz" type="rviz" name="rviz" args="-d $(find multi_slam_karto)/launch/includes/rviz_config/single.rviz">
+    <remap from="move_base_simple/goal" to="robot_2/move_base_simple/goal"/>
+  </node>
+
+</launch>
